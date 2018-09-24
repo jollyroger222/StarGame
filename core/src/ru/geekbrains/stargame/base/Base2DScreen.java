@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.stargame.math.MatrixUtils;
 import ru.geekbrains.stargame.math.Rect;
+import ru.geekbrains.stargame.sprites.Ship;
 
 public class Base2DScreen implements Screen, InputProcessor {
 
@@ -21,6 +22,7 @@ public class Base2DScreen implements Screen, InputProcessor {
     private Rect worldBounds; // граница проэкции мировых координат
     private Rect glBounds; // дефолтные границы OpenGl
 
+    private Ship ship;
     protected Matrix4 worldToGl;
     protected Matrix3 screenToWorld;
 
@@ -119,6 +121,7 @@ public class Base2DScreen implements Screen, InputProcessor {
 
     public boolean touchDown(Vector2 touch, int pointer) {
         System.out.println("touchDown touchX = " + touch.x + " touchY = "+ touch.y);
+
         return false;
     }
 
@@ -149,4 +152,6 @@ public class Base2DScreen implements Screen, InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+
+
 }

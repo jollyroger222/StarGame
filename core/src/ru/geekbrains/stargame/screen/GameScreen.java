@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.stargame.base.Base2DScreen;
-import ru.geekbrains.stargame.base.Sprite;
 import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.sprites.Background;
 import ru.geekbrains.stargame.sprites.Ship;
@@ -20,7 +19,7 @@ public class GameScreen extends Base2DScreen {
     private static final int STAR_COUNT = 64;
 
     Background background;
-    Sprite sprite;
+
     Ship ship;
     Texture bg;
     TextureAtlas atlas;
@@ -55,11 +54,12 @@ public class GameScreen extends Base2DScreen {
         pos =new Vector2(0f,0f);
         region = new TextureRegion(img2,0,0,145,198);
         ship=  new Ship(new TextureRegion(img2));
-        ship.setHeightProportion(0.5f);
+        ship.setHeightProportion(0.1f);
+
         //img2=new Texture("starship.jpg");
         //region = new TextureRegion(img2,0,0,145,198);
 
-        v=new Vector2(0f,0f);
+        v=new Vector2(0.5f,0f);
         buf=new Vector2(0f,0f);
 
 
@@ -79,6 +79,7 @@ public class GameScreen extends Base2DScreen {
         for (int i = 0; i < star.length; i++) {
             star[i].update(delta);
         }
+        ship.update(delta);
     }
 
     public void checkCollisions() {
@@ -98,16 +99,27 @@ public class GameScreen extends Base2DScreen {
         for (int i = 0; i < star.length; i++) {
             star[i].draw(batch);
         }
-        if(buf.sub(pos).len()>0.5f){
-            pos.add(v);
-        }else {
-            pos.set(touch);
-        }
-        //batch.begin();
+        //if (ship.pos)
+        ship.setV(buf);
+//        if(buf.sub(pos).len()>0.5f){
+////            pos.add(v);
+//            v.set(0.0f,0f);
+//            ship.setV(v);
+//
+//        }else {
+//            v.set(0.3f,0f);
+//            ship.setV(v);
+////            pos.set(touch);
+//        }
+//        batch.begin();
 //        sprite.draw(batch);
 //        batch.draw(region, pos.x, pos.y);
         //batch.end();
+//        v.set(0.5f,0f);
+//        ship.setBottom(3.5f);
+
         ship.draw(batch);
+
         batch.end();
     }
 
@@ -127,12 +139,36 @@ public class GameScreen extends Base2DScreen {
         super.dispose();
     }
 
+//    @Override
+//    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+////        touch.set(screenX, 0f);
+////        touch.set(screenX, Gdx.graphics.getHeight() - screenY);
+////        touch.set(touch.cpy().sub(pos).setLength(0.5f));
+//
+//
+//        return super.touchDown(screenX, screenY, pointer, button);
+//    }
+//    @Override
+//    public void touchDown(Vector2 touch, int pointer) {
+//        ship.touchDown(touch, pointer);
+//
+//    }
+
+
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    public boolean keyDown(int keycode) {
+        //System.out.println("keyDown keycode = " + keycode);
+        if (keycode==21){
+            System.out.println("Нажали кнопку LEFT");
+            v.set(-0.3f,0f);
+            ship.setV(v);
+        }
 
-        touch.set(screenX, Gdx.graphics.getHeight() - screenY);
-        touch.set(touch.cpy().sub(pos).setLength(0.5f));
-
-        return super.touchDown(screenX, screenY, pointer, button);
+        if (keycode==22){
+            System.out.println("Нажали кнопку RIGHT");
+            v.set(0.3f,0f);
+            ship.setV(v);
+        }
+        return false;
     }
 }
